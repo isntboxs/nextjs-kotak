@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { MainHeader } from "@/components/Header/MainHeader";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const fontSans = FontSans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -20,14 +22,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "bg-background min-h-screen font-sans antialiased",
+          "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >
-        {children}
+        <ThemeProvider
+          defaultTheme="system"
+          attribute="class"
+          enableSystem
+          disableTransitionOnChange={true}
+        >
+          <div className="relative flex min-h-screen flex-col bg-background">
+            <MainHeader />
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
